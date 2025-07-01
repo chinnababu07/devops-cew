@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEW Network - Corporate Employee Welfare</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-users"></i>
+                <span>CEW Network</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#" class="nav-link" onclick="showSection('dashboard')">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('events')">
+                    <i class="fas fa-calendar"></i> Events
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('discussions')">
+                    <i class="fas fa-comments"></i> Discussions
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('marketplace')">
+                    <i class="fas fa-store"></i> Marketplace
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('referrals')">
+                    <i class="fas fa-handshake"></i> Referrals
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('reports')" id="reports-link" style="display: none;">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('admin')" id="admin-link" style="display: none;">
+                    <i class="fas fa-cog"></i> Admin
+                </a>
+                <a href="#" class="nav-link" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            <div class="user-info" id="user-info">
+                <span id="user-name"></span>
+                <img src="/placeholder.svg?height=32&width=32" alt="User" class="user-avatar" id="user-avatar">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section id="login-section" class="login-section">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <i class="fas fa-users"></i>
+                    <h1>CEW Network</h1>
+                    <p>Corporate Employee Welfare Network</p>
+                </div>
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="employee-id">Employee ID</label>
+                        <input type="text" id="employee-id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <div class="login-footer">
+                    <p>Demo Credentials:</p>
+                    <p><strong>Admin:</strong> admin / admin123</p>
+                    <p><strong>Employee:</strong> emp001 / emp123</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard-section" class="main-section" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Dashboard</h2>
+                <p>Welcome to CEW Network - Your Corporate Welfare Hub</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3 id="ideas-count">0</h3>
+                    <p>Innovative Ideas</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3 id="events-count">0</h3>
+                    <p>Upcoming Events</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-briefcase"></i>
+                    <h3 id="jobs-count">0</h3>
+                    <p>Job Referrals</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-birthday-cake"></i>
+                    <h3 id="birthdays-count">0</h3>
+                    <p>Today's Birthdays</p>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-lightbulb"></i> Recent Ideas</h3>
+                    <div id="recent-ideas" class="content-list">
+                        <!-- Dynamic content -->
+                    </div>
+                    <button class="btn btn-outline" onclick="showSection('discussions')">View All</button>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-calendar"></i> Upcoming Events</h3>
+                    <div id="upcoming-events" class="content-list">
+                        <!-- Dynamic content -->
+                    </div>
+                    <button class="btn btn-outline" onclick="showSection('events')">View All</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events-section" class="main-section" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Company Events</h2>
+                <button class="btn btn-primary" onclick="showModal('event-modal')">
+                    <i class="fas fa-plus"></i> Add Event
+                </button>
+            </div>
+            
+            <div class="events-grid" id="events-grid">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Discussions Section -->
+    <section id="discussions-section" class="main-section" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Discussions & Ideas</h2>
+                <button class="btn btn-primary" onclick="showModal('discussion-modal')">
+                    <i class="fas fa-plus"></i> Share Idea
+                </button>
+            </div>
+            
+            <div class="discussion-categories">
+                <button class="category-btn active" onclick="filterDiscussions('all')">All</button>
+                <button class="category-btn" onclick="filterDiscussions('innovative')">Innovative Ideas</button>
+                <button class="category-btn" onclick="filterDiscussions('technical')">Technical</button>
+                <button class="category-btn" onclick="filterDiscussions('experience')">Work Experience</button>
+                <button class="category-btn" onclick="filterDiscussions('growth')">Company Growth</button>
+            </div>
+            
+            <div class="discussions-list" id="discussions-list">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section id="marketplace-section" class="main-section" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Marketplace</h2>
+                <button class="btn btn-primary" onclick="showModal('marketplace-modal')">
+                    <i class="fas fa-plus"></i> Post Item
+                </button>
+            </div>
+            
+            <div class="marketplace-categories">
+                <button class="category-btn active" onclick="filterMarketplace('all')">All</button>
+                <button class="category-btn" onclick="filterMarketplace('property')">Property</button>
+                <button class="category-btn" onclick="filterMarketplace('rent')">Rent</button>
+                <button class="category-btn" onclick="filterMarketplace('matrimonial')">Matrimonial</button>
+                <button class="category-btn" onclick="filterMarketplace('travel')">Travel Plans</button>
+            </div>
+            
+            <div class="marketplace-grid" id="marketplace-grid">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Referrals Section -->
+    <section id="referrals-section" class="main-section" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Employee Referrals</h2>
+                <button class="btn btn-primary" onclick="showModal('referral-modal')">
+                    <i class="fas fa-plus"></i> Post Job
+                </button>
+            </div>
+            
+            <div class="referrals-grid" id="referrals-grid">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section id="reports-section" class="main-section" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Reports</h2>
+                <p>Generate and download various reports</p>
+            </div>
+            
+            <div class="reports-grid">
+                <div class="report-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Admin Report</h3>
+                    <p>Comprehensive admin analytics and user activity</p>
+                    <button class="btn btn-primary" onclick="generateReport('admin')">Generate</button>
+                </div>
+                
+                <div class="report-card">
+                    <i class="fas fa-university"></i>
+                    <h3>Bank Report</h3>
+                    <p>Financial and transaction reports</p>
+                    <button class="btn btn-primary" onclick="generateReport('bank')">Generate</button>
+                </div>
+                
+                <div class="report-card">
+                    <i class="fas fa-users"></i>
+                    <h3>User Activity Report</h3>
+                    <p>User engagement and participation metrics</p>
+                    <button class="btn btn-primary" onclick="generateReport('activity')">Generate</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section id="admin-section" class="main-section" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Admin Panel</h2>
+                <p>Manage users and system settings</p>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="tab-btn active" onclick="showAdminTab('users')">User Management</button>
+                <button class="tab-btn" onclick="showAdminTab('settings')">Settings</button>
+                <button class="tab-btn" onclick="showAdminTab('analytics')">Analytics</button>
+            </div>
+            
+            <div id="admin-users" class="admin-tab-content">
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="showModal('user-modal')">
+                        <i class="fas fa-plus"></i> Add User
+                    </button>
+                </div>
+                <div class="users-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="admin-settings" class="admin-tab-content" style="display: none;">
+                <div class="settings-form">
+                    <h3>System Settings</h3>
+                    <form id="settings-form">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" id="company-name" value="Your Company Ltd.">
+                        </div>
+                        <div class="form-group">
+                            <label>Max File Upload Size (MB)</label>
+                            <input type="number" id="max-file-size" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Enable Email Notifications</label>
+                            <input type="checkbox" id="email-notifications" checked>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="admin-analytics" class="admin-tab-content" style="display: none;">
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Total Users</h3>
+                        <div class="analytics-number" id="total-users">0</div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Active Posts</h3>
+                        <div class="analytics-number" id="total-posts">0</div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Monthly Engagement</h3>
+                        <div class="analytics-number" id="monthly-engagement">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <!-- Event Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Event</h3>
+                <span class="close" onclick="closeModal('event-modal')">&times;</span>
+            </div>
+            <form id="event-form">
+                <div class="form-group">
+                    <label>Event Title</label>
+                    <input type="text" id="event-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Event Date</label>
+                    <input type="date" id="event-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="event-description" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Event Photo</label>
+                    <input type="file" id="event-photo" accept="image/*">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('event-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Discussion Modal -->
+    <div id="discussion-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Your Idea</h3>
+                <span class="close" onclick="closeModal('discussion-modal')">&times;</span>
+            </div>
+            <form id="discussion-form">
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="discussion-category" required>
+                        <option value="">Select Category</option>
+                        <option value="innovative">Innovative Ideas</option>
+                        <option value="technical">Technical Discussion</option>
+                        <option value="experience">Work Experience</option>
+                        <option value="growth">Company Growth</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="discussion-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="discussion-description" rows="5" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('discussion-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Share Idea</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Marketplace Modal -->
+    <div id="marketplace-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Post Item</h3>
+                <span class="close" onclick="closeModal('marketplace-modal')">&times;</span>
+            </div>
+            <form id="marketplace-form">
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="marketplace-category" required>
+                        <option value="">Select Category</option>
+                        <option value="property">Property Sale</option>
+                        <option value="rent">Home Rent</option>
+                        <option value="matrimonial">Matrimonial</option>
+                        <option value="travel">Travel Plans</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="marketplace-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="marketplace-description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Contact Information</label>
+                    <input type="text" id="marketplace-contact" required>
+                </div>
+                <div class="form-group">
+                    <label>Price (if applicable)</label>
+                    <input type="text" id="marketplace-price">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('marketplace-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Post Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Referral Modal -->
+    <div id="referral-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Post Job Referral</h3>
+                <span class="close" onclick="closeModal('referral-modal')">&times;</span>
+            </div>
+            <form id="referral-form">
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" id="referral-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" id="referral-company" required>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="referral-location" required>
+                </div>
+                <div class="form-group">
+                    <label>Experience Required</label>
+                    <input type="text" id="referral-experience" required>
+                </div>
+                <div class="form-group">
+                    <label>Job Description</label>
+                    <textarea id="referral-description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Contact Email</label>
+                    <input type="email" id="referral-email" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('referral-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Post Job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Modal -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add User</h3>
+                <span class="close" onclick="closeModal('user-modal')">&times;</span>
+            </div>
+            <form id="user-form">
+                <div class="form-group">
+                    <label>Employee ID</label>
+                    <input type="text" id="new-employee-id" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="new-user-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="new-user-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="new-user-role" required>
+                        <option value="employee">Employee</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="new-user-password" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('user-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Report Password Modal -->
+    <div id="report-password-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Enter Password</h3>
+                <span class="close" onclick="closeModal('report-password-modal')">&times;</span>
+            </div>
+            <form id="report-password-form">
+                <div class="form-group">
+                    <label>Report Password</label>
+                    <input type="password" id="report-password" required>
+                    <small>Default password: report123</small>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('report-password-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Download Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
