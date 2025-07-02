@@ -45,9 +45,7 @@ cew-devops/
 6. Docker Setup and Execution
 To run the complete CEW application locally using Docker:
 
-bash
-Copy
-Edit
+to run the docker file in code editor
 docker-compose up --build
 Frontend: http://localhost:3000
 
@@ -67,9 +65,6 @@ Building Docker images
 Deploying to cloud server (e.g., EC2 via SSH, or Heroku)
 
 Sample GitHub Actions Snippet:
-yaml
-Copy
-Edit
 on:
   push:
     branches: [main]
